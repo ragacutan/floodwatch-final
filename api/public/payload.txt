@@ -1,0 +1,25 @@
+POST USER PAYLOAD
+{
+	"name": "Chenie",
+	"email": "ann@gmail.com",
+	"password": "123",
+	"address": "kahit saan",
+	"contactNumber": "0",
+	"user_type": "complicated"
+}
+
+UPDATE USER PAYLOAD
+{
+	"id": "2",
+	"name": "Chenie",
+	"email": "ann@gmail.com",
+	"password": "123",
+	"address": "kahit saan",
+	"contactNumber": "0",
+	"user_type": "complicated"
+}
+
+DELETE USER PAYLOAD
+{
+	"id": "3"
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic SMS Sending</title>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>Automatic SMS Sending</h1>
+    <p>Refresh the page to automatically send SMS messages.</p>
+
+    <script>
+        $(document).ready(function () {
+            // Function to send SMS on page load
+            function sendSMSOnLoad() {
+                // Make an AJAX request to the server-side script
+                $.ajax({
+                    type: 'POST',
+                    url: 'sms.php',
+                    success: function (response) {
+                        console.log('SMS sent successfully.');
+                    },
+                    error: function (error) {
+                        console.error('Error sending SMS:', error);
+                    }
+                });
+            }
+
+            // Call the function on page load
+            sendSMSOnLoad();
+        });
+    </script>
+</body>
+</html>
