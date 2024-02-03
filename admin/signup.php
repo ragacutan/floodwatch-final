@@ -11,10 +11,6 @@
             $errors[] = "Name is required.";
         }
 
-        if(!$_POST['contactNumber']){
-          $errors[] = "ContactNumber is required.";
-        }
-
         if(!$_POST['email']){
             $errors[] = "Email is required.";
         }  
@@ -25,12 +21,12 @@
 
         if(empty($errors)) {
             if(!check_existing_email($_POST['email'])){
-                $user = save_registration($_POST['name'], $_POST['contactNumber'], $_POST['email'], $_POST['password']);
+                $user = save_registration($_POST['name'], $_POST['email'], $_POST['password']);
                 if(!empty($user)) {
                     $_SESSION['id'] = $user['id'];
                     $_SESSION['name'] = $user['name'];
                     
-                    header("Location: landing.php");
+                    header("Location: login.php");
                 }   
             } else {
                 $errors[] = "The email address is already existing.";
@@ -70,17 +66,6 @@
                       </span>
                     </div>
                     <input type="text" class="form-control form-control-lg border-left-0" id="name" name="name" value="<?= $_POST['name'] ?? ''?>" placeholder="Full Name">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label style="color: white;">Contact Number</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend bg-transparent">
-                      <span class="input-group-text bg-transparent border-right-0">
-                        <i class="ti-lock text-white"></i>
-                      </span>
-                    </div>
-                    <input type="number" class="form-control form-control-lg border-left-0" id="contactNumber" name="contactNumber" value="<?= $_POST['contactNumber'] ?? ''?>" placeholder="Contact Number">                        
                   </div>
                 </div>
                 <div class="form-group">

@@ -25,10 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $water_level = "1";
     }
 
-    $currentTimestamp = time();
-    $formattedDate = date('Y-m-d H:i:s', $currentTimestamp);
+    //Set the default timezone to Manila
+    date_default_timezone_set('Asia/Manila');
+    $date2 = date('y-m-d H:i:s'); // 24 hour format
 
-    $sql = "INSERT INTO waterstatus (`sensor`, `water_level`, `time`) VALUES ('$sensorData', '$water_level', '$formattedDate')";
+    $sql = "INSERT INTO waterstatus (`sensor`, `water_level`, `time`) VALUES ('$sensorData', '$water_level', '$date2')";
     
     if ($conn->query($sql) === TRUE) {
         echo "Data inserted successfully";
@@ -38,4 +39,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $conn->close();
+
 ?>

@@ -151,7 +151,7 @@ $query = mysqli_query($connection, $select);
           <div class="col-md-7 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <p class="card-title mb-0">Water Level Status</p>
+                <p class="card-title mb-0">Water Level Status (The Uppermost Data is the Latest)</p>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
@@ -168,7 +168,7 @@ $query = mysqli_query($connection, $select);
                       if ($num > 0) {
                         while ($row = mysqli_fetch_array($query)) {
                           echo '<tr>';
-                          echo '<td>' . date("F d, Y @ g:H a", strtotime($row['time'])) . '</td>';
+                          echo '<td>' . date("F d, Y @ g:i a", strtotime($row['time'])) . '</td>';
                           echo '<td>' . $row['sensor'] . '</td>';
                           $waterlevel = $row['sensor'];
                           $color = '';

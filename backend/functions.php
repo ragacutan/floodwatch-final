@@ -20,13 +20,13 @@
         return mysqli_escape_string($connection, $field);
     }
 
-    function save_registration($name, $contactNumber, $email, $password) {
+    function save_registration($name, $email, $password) {
         global $connection;
         $users = [];
 
         $user_type = "admin";
 
-        $query = "INSERT INTO `users` (`name`, `contactNumber`, `email`, `password`, `user_type`) VALUES ('".escape_string($name)."', '".escape_string($contactNumber)."', '".escape_string($email)."', '".escape_string($password)."', '".escape_string($user_type)."')";
+        $query = "INSERT INTO `users` (`name`, `email`, `password`, `user_type`) VALUES ('".escape_string($name)."', '".escape_string($email)."', '".escape_string($password)."', '".escape_string($user_type)."')";
 
         if(mysqli_query($connection, $query)) {
             $id = mysqli_insert_id($connection);
