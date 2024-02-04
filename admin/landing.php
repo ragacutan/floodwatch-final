@@ -378,71 +378,77 @@ $query = mysqli_query($connection, $select);
 </script>
 
 <script>
-    fetch('getData.php')
-      .then(response => response.json())
-      .then(data => {
-        // Process the fetched data and create the Chart.js chart
-        var ctx = document.getElementById('myChart2').getContext('2d');
+  fetch('getData.php')
+    .then(response => response.json())
+    .then(data => {
+      // Process the fetched data and create the Chart.js chart
+      var ctx = document.getElementById('myChart2').getContext('2d');
 
-        // Function to calculate average time per 10 items
-        function calculateAverageTime(data) {
-          var averages = [];
-          var sum = 0;
-          var count = 0;
-          for (var i = 0; i < data.length; i++) {
-            sum += new Date(data[i].time).getTime(); // Convert time to milliseconds
-            count++;
-            if (count === 3) {
-              averages.push(new Date(sum / 3)); // Calculate average and push to averages array
-              sum = 0;
-              count = 0;
+      // Function to calculate average time per minute
+      function calculateAverageTime(data) {
+        var averages = [];
+        var sum = 0;
+        var count = 0;
+        var minuteStart = new Date(data[0].time).getMinutes(); // Get the minute of the first data point
+        for (var i = 0; i < data.length; i++) {
+          sum += new Date(data[i].time).getTime(); // Convert time to milliseconds
+          count++;
+          // Check if a minute has passed or if it's the last data point
+          if (i === data.length - 1 || new Date(data[i + 1].time).getMinutes() !== minuteStart) {
+            averages.push(new Date(sum / count)); // Calculate average and push to averages array
+            sum = 0;
+            count = 0;
+            if (i !== data.length - 1) {
+              minuteStart = new Date(data[i + 1].time).getMinutes(); // Update minuteStart for the next minute
             }
           }
-          return averages;
         }
+        return averages;
+      }
 
-        // Calculate average time per 10 items
-        var averageTimes = calculateAverageTime(data);
+      // Calculate average time per minute
+      var averageTimes = calculateAverageTime(data);
 
-        // Create labels for the chart
-        var labels = averageTimes.map(date => date.toLocaleString());
+      // Create labels for the chart
+      var labels = averageTimes.map(date => date.toLocaleString());
 
-        var chartData = {
-          labels: labels,
-          datasets: [{
-            label: 'Water Level',
-            data: data.map(item => item.water_level),
-            fill: false,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            pointRadius: 5,
-            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-            pointBorderColor: 'rgba(75, 192, 192, 1)',
-            pointHoverRadius: 8,
-            pointHoverBackgroundColor: 'rgba(75, 192, 192, 1)',
-            pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
-            yAxisID: 'y-axis-0', // Add this line to specify the y-axis for this dataset
-          }]
-        };
+      var chartData = {
+        labels: labels,
+        datasets: [{
+          label: 'Water Level',
+          data: data.map(item => item.water_level),
+          fill: false,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          pointRadius: 5,
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+          pointBorderColor: 'rgba(75, 192, 192, 1)',
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: 'rgba(75, 192, 192, 1)',
+          pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
+          yAxisID: 'y-axis-0', // Add this line to specify the y-axis for this dataset
+        }]
+      };
 
-        var options = {
-          scales: {
-            y: {
-              beginAtZero: true,
-              suggestedMin: 0,
-              suggestedMax: 5
-            }
+      var options = {
+        scales: {
+          y: {
+            beginAtZero: true,
+            suggestedMin: 0,
+            suggestedMax: 5
           }
-        };
+        }
+      };
 
-        var myChart = new Chart(ctx, {
-          type: 'line',
-          data: chartData,
-          options: options
-        });
-      })
-      .catch(error => console.error('Error fetching data:', error));
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: options
+      });
+    })
+    .catch(error => console.error('Error fetching data:', error));
 </script>
+
 <script>
     fetch('getData.php')
       .then(response => response.json())
