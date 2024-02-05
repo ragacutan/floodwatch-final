@@ -89,10 +89,10 @@ if ($num > 0) {
       $statusCode = "LOW";
       $content = " ";
     } elseif ($waterlevel == 'sensor_2') {
-      $statusCode = "ALARM";
+      $statusCode = "ALERT";
       $content = "Pinapayuhan ang lahat na maging mapagmatyag sa posibleng pag taas ng tubig.";
     } elseif ($waterlevel == 'sensor_3') {
-      $statusCode = "ALERT";
+      $statusCode = "ALARM";
       $content ="Maging handa isa posibleng paglikas";
     } elseif ($waterlevel == 'sensor_4') {
       $statusCode = "CRITICAL";

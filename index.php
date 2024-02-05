@@ -90,9 +90,9 @@
                     if($waterlevel == "sensor_1"){
                         echo "<p>Low Level. Current water level is safe. No flood advisory at the moment.</p>";
                     }elseif($waterlevel == "sensor_2"){
-                        echo "<p>Alarm! The water level is rising. Stay alert for potential flooding.</p>";
+                        echo "<p>Alert! The water level is rising. Stay alert for potential flooding.</p>";
                     }elseif($waterlevel == "sensor_3"){
-                        echo "<p>Alert! Flooding is imminent. Take necessary precautions.</p>";
+                        echo "<p>Alarm! Flooding is imminent. Take necessary precautions.</p>";
                     }elseif($waterlevel == "sensor_4"){
                         echo "<p>Critical! Severe flooding expected. Evacuation may be necessary.</p>";
                     }else{
