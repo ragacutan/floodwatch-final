@@ -266,7 +266,7 @@ $query = mysqli_query($connection, $select);
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Average Water Level Graph Per Minute</h4>
-                    <canvas style="width: 100%; height: 400px;" id="myChart"></canvas>
+                    <canvas style="width: 100%; height: 400px;" id="myChart2"></canvas>
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@ $query = mysqli_query($connection, $select);
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Average Water Level Graph Per Hour </h4>
-                    <canvas style="width: 100%; height: 400px;" id="myChart2"></canvas>
+                    <canvas style="width: 100%; height: 400px;" id="myChart"></canvas>
                   </div>
                 </div>
               </div>
