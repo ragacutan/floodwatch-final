@@ -16,24 +16,23 @@ Step 1: Running the System
     password:flood4321A  
 
 
-Step 2: Set Request Type and URL  
-    Choose the appropriate HTTP method for this API is (POST) based on the operation you want to perform.  
-    Enter the API URL, including the specific endpoint you intend to access (e.g., http://localhost/pawican/public/postName).  
+Step 2: Editing the System  
+    Navigate to backend folder to update the backends and make adjustment.   
 
-Step 3: Add Headers (if required)  
-    If your API request requires specific headers, you can add them in this step.  
+    Go also to sms and update the query on sending sms.  
 
-Step 4: Add Request Payload
-    If you're using a POST or PUT request to add or update data, proceed to the "Body" tab.  
-    Select "raw" as the data format, usually using JSON.  
-    Enter the JSON payload in the request body.  
+Step 3: Testing  
+    Run the system first on localhost.  
 
-Step 5: Send the Request  
-    Click the "Send" button to execute the API request.    
+Step 4: Uploading  
+    Open fileZilla and add  the following credentials  
 
-Step 6: View the Response  
-    Postman will display the API's response in the lower part of the window.  
-    You can review the HTTP status code, response headers, and the response body, which typically contains the data returned by the API.  
+    site: floodwatch.fusiontechph.com  
+    Software: filezilla  
+    ftp://141.136.43.69  
+    username:u475920781.floodwatch  
+    password:floodwatch4321A  
 
-Step 7: Test Other Endpoints  
-    You can repeat the above steps with different endpoints, such as printName, updateName, and deleteName, and customize the payloads as needed for testing various API functionalities.  
+    Drag and drop the file you want to upload from the left panel to the right panel  
+
+    ctr + shift + r (Hard Refresh) your browser to have the most updated cookies etc.  
