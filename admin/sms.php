@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT contactNumber FROM users WHERE user_type = 'subscriber'";
+  $sql = "SELECT contactNumber FROM users WHERE user_type = 'subscriber' AND sms = 'activated'";
   $result = $conn->query($sql);
 
   if ($result->num_rows > 0) {
@@ -54,13 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       curl_close($ch);
     }
   } else {
-    echo "No records found in the database";
+    echo $error = "";
   }
 
   // Close database connection
   $conn->close();
 } else {
-  echo "Form not submitted.";
+  // echo "Form not submitted.";
 }
 
 
@@ -81,7 +81,6 @@ $query2 = $conn2->query($sql2);
 $num = mysqli_num_rows($query2);
 if ($num > 0) {
   while ($row = mysqli_fetch_array($query2)) {
-    echo "Water Level: ";
     $waterlevel = $row['sensor'];
     $color = '';
 
@@ -128,11 +127,50 @@ $convertedTime = $dateTimeObject->format('h:i');
 
 $default_text = "FLOOD WATCH: ($convertedDate, $convertedTime $amPmIndicator) Ang baha ay nakataas na sa $statusCode sa Purok 3, Brgy. Sevilla. $content
 
-
-
-
-
 Be alert, water may rise without a warning.";
+
+
+//SMS Blasting
+$servername = "srv443.hstgr.io";
+$username = "u475920781_flood";
+$password = "flood4321A";
+$dbname = "u475920781_flood";
+
+$conn5 = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn5->connect_error) {
+  die("Connection failed: " . $conn5->connect_error);
+}
+
+
+
+$query5 = "SELECT DISTINCT blasting FROM users";
+$result = mysqli_query($connection, $query5);
+
+if ($result) {
+    // Fetch all distinct values from the 'blasting' column
+    $blasting_values = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $blasting_values[] = $row['blasting'];
+    }
+
+    // Check if all values are 'activated'
+    $all_activated = count($blasting_values) == 1 && $blasting_values[0] == 'on';
+    
+    // Output the result
+    if ($all_activated) {
+        $blasting_status = "Turn Off SMS Blasting";
+        $message5 = "ON";
+    } else {
+        $blasting_status = "Turn On SMS Blasting";
+        $message5 = "OFF";
+    }
+} else {
+    // Error executing the query
+    echo "Error executing the query: " . mysqli_error($connection);
+}
+
+
 
 
 
@@ -201,6 +239,25 @@ Be alert, water may rise without a warning.";
     <!-- partial -->
     <div class="main-panel">
       <div class="content-wrapper">
+        <div class="row">
+          <div class="col-md-12 grid-margin">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h4 class="font-weight-bold mb-0">Welcome!
+                  <?= $_SESSION['name'] ?>
+                </h4>
+              </div>
+              <div>
+                <form method="POST" action="../backend/update_status.php">
+                  <button type="submit" class="btn btn-primary btn-icon-text btn-rounded" class="btn btn-default">
+                    <?php echo  $blasting_status; ?>
+                  </button>
+                  <p style="margin-top: 5px;"><span style="font-weight: bolder; font-size: 15px;"> SMS BLASTING STATUS:   </span><span style="color: red; margin-left: 5px; text-decoration: underline; font-size: 15px;"><?php echo $message5; ?></span></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="content-wrapper">
             <div class="row">

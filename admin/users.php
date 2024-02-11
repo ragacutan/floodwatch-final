@@ -5,14 +5,44 @@ include "../backend/functions.php";
 include "../backend/check_login.php";
 
 if (isset($_GET['id'])) {
+  $id = $_GET['id'];
 
-    $id = $_GET['id'];
+  // Sanitize the input to prevent SQL injection
+  $id = mysqli_real_escape_string($connection, $id);
 
-    $query = "DELETE FROM  `users` WHERE `id` = '$id'";
-    if (mysqli_query($connection, $query)) {
-        header("Location: users.php");
-    }
+  $select3 = "SELECT * FROM users WHERE `id` = '$id'";
+  $query3 = mysqli_query($connection, $select3);
 
+  if ($query3) {
+      $result = mysqli_fetch_assoc($query3);
+
+      if ($result) {
+          $sms = $result['sms'];
+          $newStatus = '';
+
+          if ($sms == "activated") {
+              $newStatus = "deactivated";
+          } elseif ($sms == "deactivated") {
+              $newStatus = "activated";
+          }
+
+          // Update the status in the database
+          $updateQuery = "UPDATE users SET `sms` = '$newStatus' WHERE `id` = '$id'";
+          $query4 = mysqli_query($connection, $updateQuery);
+
+          if ($query4) {
+              // Redirect after successful update
+              header('Location: users.php');
+              exit(); // Make sure to exit after redirecting
+          } else {
+              echo "Error updating status: " . mysqli_error($connection);
+          }
+      } else {
+          echo "No SMS found for the provided ID.";
+      }
+  } else {
+      echo "Error executing the query: " . mysqli_error($connection);
+  }
 }
 
 $select = "SELECT * FROM users WHERE user_type = 'subscriber'";
@@ -99,6 +129,16 @@ $query = mysqli_query($connection, $select);
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
+        <div class="row">
+          <div class="col-md-12 grid-margin">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h4 class="font-weight-bold mb-0">Welcome!
+                  <?= $_SESSION['name'] ?>
+                </h4>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
@@ -124,6 +164,9 @@ $query = mysqli_query($connection, $select);
                             Contact Number
                           </th>
                           <th>
+                            Subscription Status
+                          </th>
+                          <th>
                             Actions
                           </th>
                         </tr>
@@ -133,15 +176,24 @@ $query = mysqli_query($connection, $select);
                             $num = mysqli_num_rows($query);
                             if ($num > 0) {
                                 while ($row = mysqli_fetch_array($query)) {
-                                    echo "
+                                  $sms = $row['sms'];
+                                  if ($sms == "activated") {
+                                      $action = "Deactivate";
+                                  } else {
+                                      $action = "Activate";
+                                  }
+                                echo "
                                 <tr>
                                 <td>". $row['id'] ."</td>
                                 <td>". $row['name'] ."</td>
                                 <td>". $row['address'] ."</td>
                                 <td>" . $row['email'] . "</td>
                                 <td>" . $row['contactNumber'] . "</td>
+                                <td>" . $row['sms'] . "</td>
+                                
                                 <td>
-                                    <a class='dropdown-item' href='users.php?id=".$row['id']."' onclick='return confirmDelete()'><i class='dw dw-delete-3'></i> Delete</a>
+                                    <a class='dropdown-item' href='users.php?id=".$row['id']."'><i class='dw dw-delete-3'></i><b>". $action ."</b></a>
+                                    <br>
                                 </td>
                             </tr>	
                                     ";

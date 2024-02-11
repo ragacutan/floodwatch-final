@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch numbers from the database
-$sql = "SELECT contactNumber FROM users WHERE user_type = 'subscriber'";
+$sql = "SELECT contactNumber FROM users WHERE user_type = 'subscriber' AND blasting = 'on' AND sms = 'activated'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

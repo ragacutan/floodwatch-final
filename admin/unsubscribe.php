@@ -7,7 +7,7 @@
 
         $contactNumber = $_POST['contactNumber'];
 
-        $query = "DELETE FROM  `users` WHERE `contactNumber` = '$contactNumber'";
+        $query = "DELETE * FROM `users` WHERE `contactNumber` = '$contactNumber'";
         if (mysqli_query($connection, $query)) {
             header("Location: ../index.php");
         }

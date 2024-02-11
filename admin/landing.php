@@ -128,6 +128,27 @@ $query = mysqli_query($connection, $select);
           <div class="col-md-3 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
+                <p class="card-title text-md-center text-xl-left">Activated Subsriber</p>
+                <div
+                  class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+                  <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0">
+
+                    <?php
+                    $select = "SELECT * FROM users WHERE user_type = 'subscriber' AND sms = 'activated'";
+                    $query_run = mysqli_query($connection, $select);
+
+                    $row = mysqli_num_rows($query_run);
+                    echo '<h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0">' . $row . '</h3>';
+                    ?>
+                  </h3>
+                  <i class="ti-user icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
                 <p class="card-title text-md-center text-xl-left">Registered Admin</p>
                 <div
                   class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
